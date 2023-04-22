@@ -2,6 +2,7 @@ import numpy as np
 from math import *
 
 
+
 class Transformacje:
     def __init__(self,model: str = "wgs84"):
         if model == "wgs84":
@@ -19,6 +20,7 @@ class Transformacje:
         self.e2 = (2*self.flattening - self.flattening**2)
         print(model,self.a,self.b)
         
+
 
         def Np(self,f):
             N = self.a / np.sqrt(1-self.e2 * np.sin(f)**2) #**2 podnosi do kwadratu
@@ -104,15 +106,15 @@ class Transformacje:
         return x2000, y2000
         
 
-        
-            
-            
-            
-            
-            
-            
-            
-            
-            
-        
+
+        def Rneu(self,f,l): # f to fi l to lambda
+            R = np.array([[-np.sin(f) * np.cos(l),-np.sin(l),np.cos(f) * np.cos(l)],
+                          [-np.sin(f) * np.sin(l),np.cos(l),np.cos(f) * np.sin(l)],
+                          [np.cos(f), 0 ,np.sin(f)]])
+            return(R)
+
+        #zmiana XYZ na neu
+        def XYZ2neu(self,dX,f,l):
+            R = Rneu(f,l)
+            return(R.T @ dX)
 
