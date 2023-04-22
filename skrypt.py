@@ -1,9 +1,6 @@
 import numpy as np
 from math import *
-<<<<<<< HEAD
 
-=======
->>>>>>> 3bb948dc916f16d967f857f79a2f8f0c91cfe071
 class Transformacje:
     def __init__(self,model: str = "wgs84"):
         if model == "wgs84":
@@ -21,7 +18,7 @@ class Transformacje:
         self.e2 = (2*self.flattening - self.flattening**2)
         print(model,self.a,self.b)
         
-<<<<<<< HEAD
+
         def Np(self,f):
             N = self.a / np.sqrt(1-self.e2 * np.sin(f)**2) #**2 podnosi do kwadratu
             return(N)
@@ -78,7 +75,7 @@ class Transformacje:
             
             
             
-=======
+
         def sigma(self,f):
             A0 = 1 - self.e2/4 - 3 * self.e2**2/64 - 5 * self.e2**3/256
             A2 = (3/8) * (self.e2 + self.e2**2/4 + 15*self.e2**3/128)
@@ -104,4 +101,4 @@ class Transformacje:
             x92 = xgk * m0 - 5300000
             y92 = ygk * m0 + 500000
             return x92,y92
->>>>>>> 3bb948dc916f16d967f857f79a2f8f0c91cfe071
+
