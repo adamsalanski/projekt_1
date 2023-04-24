@@ -2,13 +2,7 @@
 import numpy as np
 from math import *
 
-<<<<<<< HEAD
-=======
 
-
-
-
->>>>>>> a29fd68d92858f0a34b7f0212a2a7c2c69ef5866
 class Transformacje:
     def __init__(self,model: str = "wgs84"):
         if model == "wgs84":
@@ -27,7 +21,7 @@ class Transformacje:
         print(model,self.a,self.b)
         
 
-<<<<<<< HEAD
+
         def Np(self,f):
             N = self.a / np.sqrt(1-self.e2 * np.sin(f)**2) #**2 podnosi do kwadratu
             return(N)
@@ -83,7 +77,7 @@ class Transformacje:
             
             
             
-=======
+
 
     def sigma(self,f):
         '''
@@ -230,22 +224,4 @@ class Transformacje:
      
      
      
-     
-    
 
-
-        
-
-        
-
-
-   
-
-        
-        
-         
-         
-
-
-
->>>>>>> a29fd68d92858f0a34b7f0212a2a7c2c69ef5866
