@@ -143,20 +143,37 @@ class Transformacje:
         x2000 = xgk * m
         y2000 = ygk * m + (zone * 1000000) + 500000
         return x2000, y2000
+    
+    def hirvonen(self,X,Y,Z):
+        p = np.sqrt(X**2 +Y**2)
+        f = np.arctan(Z / (p * (1-self.e2))) # f to fi
+        while True:
+            N = Np(self,f)
+            h = (p/np.cos(f)) - N
+            fp = f
+            f = np.arctan(Z / (p * (1-self.e2 * N / (N +h))))
+            if abs(fp - f) < (0.000001/206265):
+                break
+        l = np.arctan2(Y,X)    
+        return(f,l,h)
+    
+    def flh2XYZ(f,l,h,self):
+         f = f * pi/180
+         l = l * pi/180
+         N = Np(self,f)
+         X = (N + h) * cos(f) * cos(l) 
+         Y = (N + h) * cos(f) * sin(l)
+         Z = (N + h - N * self.e2) * sin(f)
+         return(X,Y,Z)
+     
+     
+     
+     
+     
+    
 
 
-        def hirvonen(self,X,Y,Z):
-            p = np.sqrt(X**2 +Y**2)
-            f = np.arctan(Z / (p * (1-self.e2))) # f to fi
-            while True:
-                N = Np(self,f)
-                h = (p/np.cos(f)) - N
-                fp = f
-                f = np.arctan(Z / (p * (1-self.e2 * N / (N +h))))
-                if abs(fp - f) < (0.000001/206265):
-                    break
-            l = np.arctan2(Y,X)    
-            return(f,l,h)
+        
 
         
 
@@ -164,14 +181,7 @@ class Transformacje:
    
 
         
-        def flh2XYZ(f,l,h,self):
-             f = f * pi/180
-             l = l * pi/180
-             N = Np(self,f)
-             X = (N + h) * cos(f) * cos(l) 
-             Y = (N + h) * cos(f) * sin(l)
-             Z = (N + h - N * self.e2) * sin(f)
-             return(X,Y,Z)
+        
          
          
 
