@@ -3,7 +3,6 @@ from math import *
 
 
 
-
 class Transformacje:
     def __init__(self,model: str = "wgs84"):
         if model == "wgs84":
@@ -21,6 +20,7 @@ class Transformacje:
         self.e2 = (2*self.flattening - self.flattening**2)
         print(model,self.a,self.b)
         
+
     def sigma(self,f):
         '''
         Funkcja licząca sigmę wykorzystywaną w funkcjach fl2pl1992 oraz BL2200.
@@ -140,26 +140,22 @@ class Transformacje:
         x2000 = xgk * m
         y2000 = ygk * m + (zone * 1000000) + 500000
         return x2000, y2000
-        
+
+
+        def hirvonen(self,X,Y,Z):
+            p = np.sqrt(X**2 +Y**2)
+            f = np.arctan(Z / (p * (1-self.e2))) # f to fi
+            while True:
+                N = Np(self,f)
+                h = (p/np.cos(f)) - N
+                fp = f
+                f = np.arctan(Z / (p * (1-self.e2 * N / (N +h))))
+                if abs(fp - f) < (0.000001/206265):
+                    break
+            l = np.arctan2(Y,X)    
+            return(f,l,h)
 
         
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
 
+
+   
