@@ -166,6 +166,19 @@ class Transformacje:
          Z = (N + h - N * self.e2) * sin(f)
          return(X,Y,Z)
      
+    def Rneu(self,f,l): # f to fi l to lambda
+         R = np.array([[-np.sin(f) * np.cos(l),-np.sin(l),np.cos(f) * np.cos(l)],
+                       [-np.sin(f) * np.sin(l),np.cos(l),np.cos(f) * np.sin(l)],
+                       [np.cos(f), 0 ,np.sin(f)]])
+         return(R)
+
+     #zmiana XYZ na neu
+    def XYZ2neu(self,dX,f,l):
+         R = Rneu(f,l)
+         return(R.T @ dX)
+     
+    
+     
      
      
      
