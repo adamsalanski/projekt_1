@@ -3,6 +3,8 @@ from math import *
 
 
 
+
+
 class Transformacje:
     def __init__(self,model: str = "wgs84"):
         if model == "wgs84":
@@ -20,6 +22,7 @@ class Transformacje:
         self.e2 = (2*self.flattening - self.flattening**2)
         print(model,self.a,self.b)
         
+
 
     def sigma(self,f):
         '''
@@ -159,3 +162,16 @@ class Transformacje:
 
 
    
+
+        
+        def flh2XYZ(f,l,h,self):
+             f = f * pi/180
+             l = l * pi/180
+             N = Np(self,f)
+             X = (N + h) * cos(f) * cos(l) 
+             Y = (N + h) * cos(f) * sin(l)
+             Z = (N + h - N * self.e2) * sin(f)
+             return(X,Y,Z)
+
+
+
