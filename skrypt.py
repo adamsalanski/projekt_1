@@ -91,6 +91,23 @@ class Transformacje:
         return(N)
     
     def BL22000 (self, f, l):
+        '''
+        Funkcja przeliczająca współrzędne geodezyjne na współrzędne w układzie 2000.
+        
+        Parameters
+        ----------
+        f : [float] : Szeroko
+        l : TYPE
+            DESCRIPTION.
+
+        Returns
+        -------
+        x2000 : TYPE
+            DESCRIPTION.
+        y2000 : TYPE
+            DESCRIPTION.
+
+        '''
         if (l >13.5 and  l < 16.5):
             zone =5
             l0 = 15
