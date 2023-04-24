@@ -30,6 +30,21 @@ class Transformacje:
         return sigma
     
     def fl2pl1992(self, f,l):
+        '''
+        Funkcja przeliczająca współrzędne geodezyjne na współrzędne w układzie 1992.
+
+        Parameters
+        ----------
+        f : TYPE: [float] - Szerokoć geodezyjna [stopnie]
+        l : TYPE: [float] - Długoć geodezyjna [stopnie]
+            DESCRIPTION.
+
+        Returns
+        -------
+        x92 : TYPE: [float] - Współrzędna X w układzie PL-1992 [m]
+        y92 : TYPE: [float] - Współrzędna Y w układzie PL-1992 [m]
+
+        '''
         f = f * pi/180
         l = l * pi/180
         m0 = 0.9993
