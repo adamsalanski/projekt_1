@@ -75,6 +75,18 @@ class Transformacje:
         return x92,y92
 
     def Np(self,f):
+        '''
+        Funkcja licząca promień krzywizny w I wertykale.
+
+        Parameters
+        ----------
+        f : TYPE: [float] - Szerokoć geodezyjna [stopnie]
+
+        Returns
+        -------
+        N : TYPE: [float] - Promień krzywizny w I wertykale [m]
+
+        '''
         N = self.a / np.sqrt(1-self.e2 * np.sin(f)**2) #**2 podnosi do kwadratu
         return(N)
     
