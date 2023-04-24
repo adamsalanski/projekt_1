@@ -172,6 +172,8 @@ class Transformacje:
              Y = (N + h) * cos(f) * sin(l)
              Z = (N + h - N * self.e2) * sin(f)
              return(X,Y,Z)
+         
+         
 
 
 
