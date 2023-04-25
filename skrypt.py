@@ -176,13 +176,30 @@ class Transformacje:
         return(f,l,h)
     
     def flh2XYZ(f,l,h,self):
-         f = f * pi/180
-         l = l * pi/180
-         N = Np(self,f)
-         X = (N + h) * cos(f) * cos(l) 
-         Y = (N + h) * cos(f) * sin(l)
-         Z = (N + h - N * self.e2) * sin(f)
-         return(X,Y,Z)
+        '''
+        Funkcja przelicza współrzędne krzywoliniowe(f,l,h) na współrzędne prostokątne(X,Y,Z).
+
+        Parameters
+        ----------
+        f : TYPE: [float] - Szerokość geodezyjna [stopnie dziesiętne]
+        l : TYPE: [float] - Długosć geodezyjna [stopnie dziesiętne]
+        h : TYPE: [float] - Wysokosc elipsoidalna [metry]
+
+        Returns
+        ----------
+        X : TYPE: [float] - Współrzędna X w układzie ortokartezjańskim [metry]
+        Y : TYPE: [float] - Współrzędna Y w układzie ortokartezjańskim [metry]
+        Z : TYPE: [float] - Współrzędna Z w układzie ortokartezjańskim [metry]
+        
+
+        '''
+        f = f * pi/180
+        l = l * pi/180
+        N = Np(self,f)
+        X = (N + h) * cos(f) * cos(l) 
+        Y = (N + h) * cos(f) * sin(l)
+        Z = (N + h - N * self.e2) * sin(f)
+        return(X,Y,Z)
      
     def Rneu(self,f,l): # f to fi l to lambda
          R = np.array([[-np.sin(f) * np.cos(l),-np.sin(l),np.cos(f) * np.cos(l)],
