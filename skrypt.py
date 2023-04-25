@@ -201,16 +201,44 @@ class Transformacje:
         Z = (N + h - N * self.e2) * sin(f)
         return(X,Y,Z)
      
-    def Rneu(self,f,l): # f to fi l to lambda
-         R = np.array([[-np.sin(f) * np.cos(l),-np.sin(l),np.cos(f) * np.cos(l)],
+    def Rneu(self,f,l):
+        '''
+        Funkcja przyjmuje współrzedne krzywoliniowe i tworzy macierz obrotu 
+        potrzebną do przeliczenia współrzędnych krzywoliniowych (f,l) do układu współrzędnych neu
+
+        Parameters
+        ----------
+        f : TYPE: [float] - Szerokość geodezyjna [stopnie dziesiętne]
+        l : TYPE: [float] - Długosć geodezyjna [stopnie dziesiętne]
+
+        Returns
+        -------
+        R : [array of float64] : Macierz obrotu
+
+        '''
+        R = np.array([[-np.sin(f) * np.cos(l),-np.sin(l),np.cos(f) * np.cos(l)],
                        [-np.sin(f) * np.sin(l),np.cos(l),np.cos(f) * np.sin(l)],
                        [np.cos(f), 0 ,np.sin(f)]])
-         return(R)
+        return(R)
 
-     #zmiana XYZ na neu
+     
     def XYZ2neu(self,dX,f,l):
-         R = Rneu(f,l)
-         return(R.T @ dX)
+        '''
+        Funckja obliczająca wektor w układzie neu
+
+        Parameters
+        ----------
+        dX : TYP.
+        f : TYPE: [float] - Szerokość geodezyjna [stopnie dziesiętne]
+        l : TYPE: [float] - Długosć geodezyjna [stopnie dziesiętne]
+
+        Returns
+        
+        R.T @ dX : [array of float64] : współrzedne topocentryczne (North , East (E), Up (U))
+
+        '''
+        R = Rneu(f,l)
+        return(R.T @ dX)
      
     
      
