@@ -21,6 +21,66 @@ class Transformacje:
         self.flattening = (self.a - self.b)/self.a
         self.e2 = (2*self.flattening - self.flattening**2)
         print(model,self.a,self.b)
+    
+    def dms(self,x):
+        '''
+        Funkcja zamieniająca stopnie dziesiętne na stopnie, minuty, sekundy.
+
+        Parameters
+        ----------
+        x : TYPE: [float] - Kąt [stopnie dziesiętne]
+
+        Returns
+        -------
+        d,m,s - Kąt [stopnie]
+        
+        d : TYPE: [int] -  [stopnie]
+        m : TYPE: [int] -  [minuty]
+        s : TYPE: [float] - [sekundy]
+
+        '''
+        znak = ' '
+        if x<0:
+            znak = '-'
+            x = abs(x)
+        x = x * 180/pi
+        d = int(x) #stopnie
+        m = int((x - d)*60) #minuty
+        s = (x - d - m/60)*3600 #sekundy
+        print(znak,"%3d %2d %7.5f"% (d,m,s)) 
+        return(d,m,s)
+    
+    def fromdms(X):
+        '''
+        Funkcja zamieniająca stopnie w układzie (d m s) na radiany i stopnie dziesiętne.
+         
+        Parameters
+        ----------
+        X : Kąt wyrażony w postaci d m s, gdzie
+        d : TYPE: [int] -  [stopnie]
+        m : TYPE: [int] -  [minuty]
+        s : TYPE: [float] - [sekundy]
+
+        Returns
+        -------
+        Z : TYPE: [float] - Kąt [radiany]
+        Y : TYPE: [float] - Kąt [stopnie dziesiętne]
+
+        '''
+      
+        znak = 1
+        if X[0] == '-':
+             znak = -1
+        Y = X.split(' ' or '"' or "'" or '°' or '-')
+        d = int(Y[0])
+        m = int(Y[1])
+        s = float(Y[2])
+        s = s/3600
+        m = m/60
+        Y = znak*(d+m+s)
+        Z = Y * pi/180
+        Y = float(f'{Y:7.5f}')
+        return(Z,Y)
         
 
 
