@@ -50,7 +50,7 @@ class Transformacje:
         print(znak,"%3d %2d %7.5f"% (d,m,s)) 
         return(d,m,s)
     
-    def fromdms(X):
+    def fromdms(self,X):
         '''
         Funkcja zamieniająca stopnie w układzie (d m s) na radiany i stopnie dziesiętne.
          
@@ -120,8 +120,7 @@ class Transformacje:
         y92 : TYPE: [float] - Współrzędna Y w układzie PL-1992 [m]
 
         '''
-        f = f * pi/180
-        l = l * pi/180
+        
         m0 = 0.9993
         l0 = 19 * pi/180
         b2 = self.a**2*(1 - self.e2)
@@ -129,9 +128,13 @@ class Transformacje:
         dl = l - l0
         t = tan(f)
         n2 = ep2 * cos(f)**2
-        N = Np(self,f)
-        sigm = sigma(self,f)
-        xgk = sigm + (dl**2/2) * N * sin(f)*cos(f)*(1 + (dl**2/12)*cos(f)**2*(5-t**2+9*n2+4*n2**2)+ ((dl**4)/360)*cos(f)**4*(61 - 58*t**2 + t**4 + 270*n2 - 330*n2*t**2))
+        N = self.a / (sqrt(1 - self.e2 * (sin(f)) ** 2))
+        A0 = 1 - self.e2/4 - 3 * self.e2**2/64 - 5 * self.e2**3/256
+        A2 = (3/8) * (self.e2 + self.e2**2/4 + 15*self.e2**3/128)
+        A4 = (15/256) * (self.e2**2 + (3 * self.e2**3)/4)
+        A6 = 35 * self.e2**3/3072
+        sigma = self.a * (A0*f - A2*sin(2*f) + A4*sin(4*f) - A6*sin(6*f))
+        xgk = sigma + (dl**2/2) * N * sin(f)*cos(f)*(1 + (dl**2/12)*cos(f)**2*(5-t**2+9*n2+4*n2**2)+ ((dl**4)/360)*cos(f)**4*(61 - 58*t**2 + t**4 + 270*n2 - 330*n2*t**2))
         ygk = dl*N*cos(f)*(1+(dl**2/6)*cos(f)**2*(1 - t**2 + n2) + (dl**4/120)*cos(f)**4*(5 - 18*t**2 + t**4 + 14*n2 - 58*n2*t**2))
         x92 = xgk * m0 - 5300000
         y92 = ygk * m0 + 500000
@@ -226,7 +229,7 @@ class Transformacje:
         p = np.sqrt(X**2 +Y**2)
         f = np.arctan(Z / (p * (1-self.e2))) # f to fi
         while True:
-            N = Np(self,f)
+            N = self.a / np.sqrt(1-self.e2 * np.sin(f)**2)
             h = (p/np.cos(f)) - N
             fp = f
             f = np.arctan(Z / (p * (1-self.e2 * N / (N +h))))
@@ -235,7 +238,7 @@ class Transformacje:
         l = np.arctan2(Y,X)    
         return(f,l,h)
     
-    def flh2XYZ(f,l,h,self):
+    def flh2XYZ(self,f,l,h):
         '''
         Funkcja przelicza współrzędne krzywoliniowe(f,l,h) na współrzędne prostokątne(X,Y,Z).
 
@@ -253,9 +256,8 @@ class Transformacje:
         
 
         '''
-        f = f * pi/180
-        l = l * pi/180
-        N = Np(self,f)
+        
+        N = self.a / np.sqrt(1-self.e2 * np.sin(f)**2)
         X = (N + h) * cos(f) * cos(l) 
         Y = (N + h) * cos(f) * sin(l)
         Z = (N + h - N * self.e2) * sin(f)
@@ -299,7 +301,29 @@ class Transformacje:
         '''
         R = Rneu(f,l)
         return(R.T @ dX)
-     
+
+if __name__ == "__main__":
+    geo = Transformacje(model = "grs80")
+    X = 3664940.500
+    Y = 1409153.590
+    Z = 5009571.170
+    phi, lam, h = geo.hirvonen(X, Y, Z)
+    print(phi, lam, h)
+    
+    X,Y,Z = geo.flh2XYZ(phi,lam,h)
+    print(X,Y,Z)
+    
+    f=0.9076010398716878
+    l = 0.27936573137624443 
+    x92,y92 = geo.fl2pl1992(f, l)
+    print(x92,y92)
+    
+    #x2000,y2000 = geo.BL22000(f,l)
+    #print(x2000,y2000)
+    
+    
+
+    
     
      
      
