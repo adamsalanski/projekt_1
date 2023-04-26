@@ -18,13 +18,67 @@ class Transformacje:
         self.e2 = (2*self.flattening - self.flattening**2)
         print(model,self.a,self.b)
         
-        def Rneu(self,f,l): # f to fi l to lambda
-            R = np.array([[-np.sin(f) * np.cos(l),-np.sin(l),np.cos(f) * np.cos(l)],
-                          [-np.sin(f) * np.sin(l),np.cos(l),np.cos(f) * np.sin(l)],
-                          [np.cos(f), 0 ,np.sin(f)]])
-            return(R)
+        
+        def średnia(self, wartosci):
+            """
+            Funkcja liczy średnią wartość z elementów w liscie
+            
+            Parameters:
+            ----------
+            wartosci : [float] : lista wartosci
+            
+            Returns:
+            --------
+            srednia : [float] : średnia arytmetyczna elementów z listy 
+            
+            """
+            suma = 0
+            ilość = 0
+            for wartosc in wartosci:
+                suma += wartosc
+                ilość += 1
+            srednia = float(suma / ilość)
+            return(srednia)
+        
+        def Rneu(self, phi, lam):
+            """
+            Funkcja, która, przyjmujac współrzedne krzywoliniowe utworzy macierz obrotu 
+            potrzebną do przeliczenia współrzędnych do układu współrzędnych neu
+        
+            INPUT:
+            ----------
+            phi : [float] : wspołrzędna fi punktu początkowego układu lokalnego
+            lam : [float] :wspołrzędna l punktu początkowego układu lokalnego
+        
+            OUTPUT:
+            -------
+            R : [array of float64] : macierz obrotu
+        
+            """
+            N=[(-sin(phi) * cos(lam)), (-sin(phi) * sin(lam)), (cos(phi))]
+            E=[(-sin(lam)), (cos(lam)),  (0)]
+            U=[( cos(phi) * cos(lam)), ( cos(phi) * sin(lam)), (sin(phi))]
+            R=np.transpose(np.array([N,E,U]))
+            return (R, N, E, U)
+        
+        def NEU(self, R,v):
+            """
+            Funckja obliczająca wektor w układzie neu
+        
+            Parameters:
+            -----------
+            R : R : [array of float64] : macierz obrotu
+            v : [array of float64] : wektor w układzie XYZ
+            
+            Returns:
+            -------
+            NEU : [array of float64] : współrzedne topocentryczne (North , East (E), Up (U))
+        
+            """
+            NEU=np.zeros(v.shape)
+            for a in range(v.shape[0]):
+                for b in range(3):
+                    for c in range(3):
+                        NEU[a,c]+=v[a,b]*R[c,b]
+            return (NEU)
 
-        #zmiana XYZ na neu
-        def XYZ2neu(self,dX,f,l):
-            R = Rneu(f,l)
-            return(R.T @ dX)
