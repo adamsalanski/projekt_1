@@ -312,6 +312,38 @@ if __name__ == "__main__":
     x2000,y2000 = geo.BL22000(f,l,5)
     print(x2000,y2000)
     
+    plik = "wsp_inp.txt"
+    tablica = np.genfromtxt(plik, delimiter=',', skip_header = 4)
+    dane = np.ones((12,3))
+    for i, n in enumerate(tablica):
+        phi, lam, hel = geo.hirvonen(tablica[i,0], tablica[i,1], tablica[i,2])
+        dane[i,:] = [phi, lam, hel]
+        
+    print(dane) #phi, lam, hel
+    
+    dane2 = np.ones((12,3))
+    for i, n in enumerate(dane):
+        X, Y, Z = geo.flh2XYZ(dane[i,0], dane[i,1], dane[i,2])
+        dane2[i,:] = [X, Y, Z]
+        
+    print(dane2) # X, Y, Z
+    
+    
+        
+    dane3 = np.ones((12,2))
+    for i, n in enumerate(dane):
+        x2000, y2000 = geo.BL22000(dane[i,0], dane[i,1],7)
+        dane3[i,:] = [x2000, y2000]
+        
+    print(dane3) # x2000, y2000
+    
+    dane4 = np.ones((12,2))
+    for i, n in enumerate(dane):
+        x1992, y1992 = geo.fl2pl1992(dane[i,0], dane[i,1])
+        dane4[i,:] = [x1992, y1992]
+        
+    print(dane4) # x1992, y1992
+    
     
 
     
