@@ -1,3 +1,6 @@
+import numpy as np
+from math import *
+
 class Transformacje:
     def __init__(self,model: str = "wgs84"):
         if model == "wgs84":
