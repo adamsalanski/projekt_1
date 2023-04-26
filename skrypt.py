@@ -6,7 +6,7 @@ import argparse
 
 
 class Transformacje:
-    def __init__(self,model: str = "wgs84",zapis=False, nazwa='',X='',Y='',Z='',f='',l='',h='',X2='',Y2='',Z2='',s='',alfa='',z=''):
+    def __init__(self,model: str = "wgs84"):
         if model == "wgs84":
             self.a = 6378137.0
             self.b = 6356752.31424518
@@ -337,30 +337,12 @@ class Transformacje:
             parser.add_argument('-l', help="wartosc wspolrzednej l [Â° ' '']", required=False, default='')
             parser.add_argument('-H', help='wartosc wspolrzednej H [m]', required=False, default='')
             
-            parser.add_argument('--model', help='model elipsoidy', choices=['grs80','wgs84', 'kra'], required=False, type=str, default='grs80')
-            parser.add_argument('--metoda', help='metoda transformacji', choices=['xyz2flh','neu', 'flh2xyz','pl2000','pl1992'], required=False, type=str, default='')
-            parser.add_argument('--zapis', help='zapis do pliku tekstowego (.txt)', choices=[True, False], required=False, type=bool, default='False')
-            parser.add_argument('--nazwa', help='nazwa pliku wyjsciowego (.txt)', required=False, type=str, default='output')
+           
             
             args = parser.parse_args()
             
             
-            dane = [args.X, args.Y, args.Z, args.f, args.l, args.H, args.X2, args.Y2, args.Z2, args.s, args.alfa, args.z]
-            dane_ost = []
-            for wartosc in dane:
-                try:
-                    wartosc = float(wartosc)
-                except ValueError:
-                    wartosc = wartosc
-                dane_ost.append(wartosc)
-                
-            nazwa = args.nazwa
-            zapis = args.zapis
-            model = args.model
-            self.metoda = args.metoda
-         
-            self.__init__(model=model, zapis=zapis, nazwa=nazwa, X=dane_ost[0], Y=dane_ost[1], Z=dane_ost[2], f=dane_ost[3], l=dane_ost[4], h=dane_ost[5], X2=dane_ost[6], Y2=dane_ost[7], Z2=dane_ost[8], s=dane_ost[9], alfa=dane_ost[10], z=dane_ost[11])
-
+            
 
 if __name__ == "__main__":
     geo = Transformacje(model = "grs80")
@@ -436,8 +418,60 @@ if __name__ == "__main__":
     np.savetxt("wyniki.txt", DANE, delimiter='  ', fmt = ['%10.8f', '%10.8f', '%10.5f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f' ], header = 'Konwersja współrzednych geodezyjnych ', comments=' phi [st]     lambda[st]     hel[m]          X[m]              Y[m]              Z[m]          N[m]         E[m]         U[m]         x2000[m]        y2000[m]        x1992[m]          y1992[m]      \n ' )
     
     #wywołanie argparse
+    parser = argparse.ArgumentParser(description='Transformacje wspolrzednych')
+    
+    parser.add_argument('-X', help='wartosc wspolrzednej pierwszegi punktu X [m]', required=False, default='')
+    parser.add_argument('-Y', help='wartosc wspolrzednej pierwszego punktu Y [m]', required=False, default='')
+    parser.add_argument('-Z', help='wartosc wspolrzednej pierwszego punktu Z [m]', required=False, default='')
+    
+    parser.add_argument('-X2', help='wartosc wspolrzednej drugiego punktu X [m]', required=False, default='')
+    parser.add_argument('-Y2', help='wartosc wspolrzednej drugiego punktu Y [m]', required=False, default='')
+    parser.add_argument('-Z2', help='wartosc wspolrzednej drugiego punktu Z [m]', required=False, default='')
+    
+    parser.add_argument('-s', help='wartosc dlugosci miedzy dwoma punktami [m]', required=False, default='')
+    parser.add_argument('-alfa', help="wartosc kat poziomego [Â° ' '']", required=False, default='')
+    parser.add_argument('-z', help="wartosc kat zenitalnego [Â° ' '']", required=False, default='')
+       
+    parser.add_argument('-f', help="wartosc wspolrzednej f [Â° ' '']", required=False, default='')
+    parser.add_argument('-l', help="wartosc wspolrzednej l [Â° ' '']", required=False, default='')
+    parser.add_argument('-H', help='wartosc wspolrzednej H [m]', required=False, default='')
+    parser.add_argument('-ns', help="numer strefy odwzorowawczej ns [° ' '']", required=False, default='')
+   
+    
+    args = parser.parse_args()
+    
+    X = args.X
+    Y = args.Y
+    Z = args.Z
+    X2 = args.X2
+    Y2 = args.Y2
+    Z2 = args.Z2
+    s = args.s
+    alfa = args.alfa
+    z = args.z
+    f = args.f
+    l = args.l
+    H = args.H
+    ns = args.ns
+    
+    f,l,h = geo.hirvonen(X,Y,Z)
+    X,Y,Z = geo.flh2XYZ(f, l, h)
+    x92,y92 = geo.fl2pl1992(f,l)
+    x2000,y2000 = geo.BL22000(f, l, ns)
+    neu = geo.NEU(R, v)
     proba = Transformacje()
     proba.zargparse()
+        
+    
+    
+            
+            
+            
+    
+
+    
+    
+    
     
 
     
