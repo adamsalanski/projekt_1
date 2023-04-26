@@ -253,45 +253,70 @@ class Transformacje:
         Y = (N + h) * cos(f) * sin(l)
         Z = (N + h - N * self.e2) * sin(f)
         return(X,Y,Z)
-     
-    def Rneu(self,f,l):
-        '''
-        Funkcja przyjmuje współrzedne krzywoliniowe i tworzy macierz obrotu 
-        potrzebną do przeliczenia współrzędnych krzywoliniowych (f,l) do układu współrzędnych neu
-
-        Parameters
-        ----------
-        f : TYPE: [float] - Szerokość geodezyjna [stopnie dziesiętne]
-        l : TYPE: [float] - Długosć geodezyjna [stopnie dziesiętne]
-
-        Returns
-        -------
-        R : [array of float64] : Macierz obrotu
-
-        '''
-        R = np.array([[-np.sin(f) * np.cos(l),-np.sin(l),np.cos(f) * np.cos(l)],
-                       [-np.sin(f) * np.sin(l),np.cos(l),np.cos(f) * np.sin(l)],
-                       [np.cos(f), 0 ,np.sin(f)]])
-        return(R)
-
-     
-    def XYZ2neu(self,dX,f,l):
-        '''
-        Funckja obliczająca wektor w układzie neu
-
-        Parameters
-        ----------
-        dX : TYP.
-        f : TYPE: [float] - Szerokość geodezyjna [stopnie dziesiętne]
-        l : TYPE: [float] - Długosć geodezyjna [stopnie dziesiętne]
-
-        Returns
+    
+    def średnia(self, wartosci):
+        """
+        Funkcja liczy średnią wartość z elementów w liscie
         
-        R.T @ dX : [array of float64] : współrzedne topocentryczne (North , East (E), Up (U))
+        Parameters:
+        ----------
+        wartosci : [float] : lista wartosci
+        
+        Returns:
+        --------
+        srednia : [float] : średnia arytmetyczna elementów z listy 
+        
+        """
+        suma = 0
+        ilość = 0
+        for wartosc in wartosci:
+            suma += wartosc
+            ilość += 1
+        srednia = float(suma / ilość)
+        return(srednia)
+    
+    def Rneu(self, phi, lam):
+        """
+        Funkcja, która, przyjmujac współrzedne krzywoliniowe utworzy macierz obrotu 
+        potrzebną do przeliczenia współrzędnych do układu współrzędnych neu
+    
+        INPUT:
+        ----------
+        phi : [float] : wspołrzędna fi punktu początkowego układu lokalnego
+        lam : [float] :wspołrzędna l punktu początkowego układu lokalnego
+    
+        OUTPUT:
+        -------
+        R : [array of float64] : macierz obrotu
+    
+        """
+        N=[(-sin(phi) * cos(lam)), (-sin(phi) * sin(lam)), (cos(phi))]
+        E=[(-sin(lam)), (cos(lam)),  (0)]
+        U=[( cos(phi) * cos(lam)), ( cos(phi) * sin(lam)), (sin(phi))]
+        R=np.transpose(np.array([N,E,U]))
+        return (R, N, E, U)
+    
+    def NEU(self, R,v):
+        """
+        Funckja obliczająca wektor w układzie neu
+    
+        Parameters:
+        -----------
+        R : R : [array of float64] : macierz obrotu
+        v : [array of float64] : wektor w układzie XYZ
+        
+        Returns:
+        -------
+        NEU : [array of float64] : współrzedne topocentryczne (North , East (E), Up (U))
+    
+        """
+        NEU=np.zeros(v.shape)
+        for a in range(v.shape[0]):
+            for b in range(3):
+                for c in range(3):
+                    NEU[a,c]+=v[a,b]*R[c,b]
+        return (NEU)
 
-        '''
-        R = Rneu(f,l)
-        return(R.T @ dX)
 
 if __name__ == "__main__":
     geo = Transformacje(model = "grs80")
@@ -343,6 +368,25 @@ if __name__ == "__main__":
         dane4[i,:] = [x1992, y1992]
         
     print(dane4) # x1992, y1992
+    
+    phi_sr = geo.średnia(dane[:,0])
+    lam_sr = geo.średnia(dane[:,1]) 
+    X_sr = geo.średnia(dane2[:,0])
+    Y_sr = geo.średnia(dane2[:,1])
+    Z_sr = geo.średnia(dane2[:,2])
+    [phi_sr, lam_sr, hel_sr] = geo.hirvonen(X_sr, Y_sr, Z_sr)
+    R, N, E, U = geo.Rneu(phi_sr,lam_sr)
+    
+    ii=0
+    v=np.array(np.zeros((dane2.shape[0],3)))
+    for ii in range(0, dane2.shape[0]):
+        v[ii,0]=X_sr - dane2[ii,0]
+        v[ii,1]=Y_sr - dane2[ii,1]
+        v[ii,2]=Z_sr - dane2[ii,2]
+        ii += 1
+
+    neu=geo.NEU(R, v)
+    print(neu) 
     
     
 
