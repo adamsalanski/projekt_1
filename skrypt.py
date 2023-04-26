@@ -156,56 +156,47 @@ class Transformacje:
         N = self.a / np.sqrt(1-self.e2 * np.sin(f)**2) #**2 podnosi do kwadratu
         return(N)
     
-    def BL22000 (self, f, l):
+    def BL22000 (self, f, l,ns):
         '''
         Funkcja przeliczająca współrzędne geodezyjne na współrzędne w układzie 2000.
         
         Parameters
         ----------
-        f : [float] : Szeroko
-        l : TYPE
-            DESCRIPTION.
+        f : TYPE : [float] : Szerokość geodezyjna [stopnie]
+        l : TYPE : [float] : Długość geodezyjna [stopnie]
+        ns : TYPE: [int] : Numer strefy
 
         Returns
         -------
-        x2000 : TYPE
-            DESCRIPTION.
-        y2000 : TYPE
-            DESCRIPTION.
+        x2000 : TYPE : [float] : współrzędna X w układzie 2000 [m]
+        y2000 : TYPE : [float] : współrzędna Y w układzie 2000 [m]
 
         '''
-        if (l >13.5 and  l < 16.5):
-            zone =5
-            l0 = 15
-        elif (l > 16.5 and l < 19.5):
-            zone = 6 
-            l0 = 18
-        elif (l > 19.5 and l < 22.5):
-            zone =7
-            l0 = 21
-        elif (l > 22.5 and l <25.5):
-            zone = 8
-            l0 = 24
-        f = f * pi/180
-        l = l * pi/180
-        l0 = l0 * pi/180
-        b2 = (self.a**2) * (1-self.e2)
-        ep2 = (self.a**2-b2)/(b2)
-        t = atan(f)
-        n2 = ep2 *((cos(f))**2)
+        if ns == 5:
+            l0 = radians(15)
+        elif ns == 6:
+            l0 = radians(18)
+        elif ns == 7:
+            l0 = radians(21)
+        elif ns == 8:
+            l0 = radians(24)
+        m0= 0.999923
+        b2 = self.a**2*(1 - self.e2)
+        ep2 = (self.a**2 - b2)/b2
+        dl = l - l0
+        t = tan(f)
+        n2 = ep2 * cos(f)**2
         N = self.a / (sqrt(1 - self.e2 * (sin(f)) ** 2))
-        A0 = 1-(self.e2/4) - ((3*(self.e2**2))/64)-((5*(self.e2**3))/256)
-        A2 = (3/8)*(self.e2+(self.e2**2/4)+((15*(self.e2**3))/128))
-        A4 = (15/256)*((self.e2**2)+((3*(self.e2**3))/4))
-        A6 = (35*(self.e2**3))/3072
-        sigma = self.a * (A0*(f) - A2 * sin(2*f) + A4 * sin(4*f) - A6 * sin(6 * f))
-        dlam = l - l0
-        xgk = sigma + ((dlam**2)/2) * N * sin(f) * cos(f) * (1 + ((dlam**2)/12) * ((cos(f))**2) * (5 - t**2 + 9*n2 + 4*(n2**2)) + ((dlam**4)/360) * ((cos(f))**4) * (61-58 * (t**2) + t**4 + 270 * n2 - 330 * n2 * (t**2)))
-        ygk = dlam * N * cos(f) * (1 + ((dlam**2)/6) * ((cos(f))**2) * (1 - t**2 + n2) + ((dlam**4)/120) * ((cos(f))**4) * (5 - 18 * (t**2) + t**4 + 14 * n2 - 58 * n2 * (t**2)))
-        m = 0.999923 #skala PL-2000
-        x2000 = xgk * m
-        y2000 = ygk * m + (zone * 1000000) + 500000
-        return x2000, y2000
+        A0 = 1 - self.e2/4 - 3 * self.e2**2/64 - 5 * self.e2**3/256
+        A2 = (3/8) * (self.e2 + self.e2**2/4 + 15*self.e2**3/128)
+        A4 = (15/256) * (self.e2**2 + (3 * self.e2**3)/4)
+        A6 = 35 * self.e2**3/3072
+        sigma = self.a * (A0*f - A2*sin(2*f) + A4*sin(4*f) - A6*sin(6*f))
+        xgk = sigma + (dl**2/2) * N * sin(f)*cos(f)*(1 + (dl**2/12)*cos(f)**2*(5-t**2+9*n2+4*n2**2)+ ((dl**4)/360)*cos(f)**4*(61 - 58*t**2 + t**4 + 270*n2 - 330*n2*t**2))
+        ygk = dl*N*cos(f)*(1+(dl**2/6)*cos(f)**2*(1 - t**2 + n2) + (dl**4/120)*cos(f)**4*(5 - 18*t**2 + t**4 + 14*n2 - 58*n2*t**2))
+        x2000 = xgk * m0
+        y2000 = ygk * m0 + ns * 1000000 + 500000
+        return x2000,y2000
     
     def hirvonen(self,X,Y,Z):
         '''
@@ -318,8 +309,8 @@ if __name__ == "__main__":
     x92,y92 = geo.fl2pl1992(f, l)
     print(x92,y92)
     
-    #x2000,y2000 = geo.BL22000(f,l)
-    #print(x2000,y2000)
+    x2000,y2000 = geo.BL22000(f,l,5)
+    print(x2000,y2000)
     
     
 
