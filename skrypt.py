@@ -321,28 +321,29 @@ class Transformacje:
             
             parser = argparse.ArgumentParser(description='Transformacje wspolrzednych')
             
-            parser.add_argument('-X', help='wartosc wspolrzednej pierwszegi punktu X [m]', required=False, default='')
-            parser.add_argument('-Y', help='wartosc wspolrzednej pierwszego punktu Y [m]', required=False, default='')
-            parser.add_argument('-Z', help='wartosc wspolrzednej pierwszego punktu Z [m]', required=False, default='')
-            
-            parser.add_argument('-X2', help='wartosc wspolrzednej drugiego punktu X [m]', required=False, default='')
-            parser.add_argument('-Y2', help='wartosc wspolrzednej drugiego punktu Y [m]', required=False, default='')
-            parser.add_argument('-Z2', help='wartosc wspolrzednej drugiego punktu Z [m]', required=False, default='')
-            
-            parser.add_argument('-s', help='wartosc dlugosci miedzy dwoma punktami [m]', required=False, default='')
-            parser.add_argument('-alfa', help="wartosc kat poziomego [Â° ' '']", required=False, default='')
-            parser.add_argument('-z', help="wartosc kat zenitalnego [Â° ' '']", required=False, default='')
+            parser.add_argument('-X', help='wartosc wspolrzednej pierwszegi punktu X [m]', required=False, type=float)
+            parser.add_argument('-Y', help='wartosc wspolrzednej pierwszego punktu Y [m]', required=False, type=float)
+            parser.add_argument('-Z', help='wartosc wspolrzednej pierwszego punktu Z [m]', required=False, type=float)
                
-            parser.add_argument('-f', help="wartosc wspolrzednej f [Â° ' '']", required=False, default='')
-            parser.add_argument('-l', help="wartosc wspolrzednej l [Â° ' '']", required=False, default='')
-            parser.add_argument('-H', help='wartosc wspolrzednej H [m]', required=False, default='')
+            parser.add_argument('-f', help="wartosc wspolrzednej f [Â° ' '']", required=False, type=float)
+            parser.add_argument('-l', help="wartosc wspolrzednej l [Â° ' '']", required=False, type=float)
+            parser.add_argument('-H', help='wartosc wspolrzednej H [m]', required=False, type=float)
             
-           
+            parser.add_argument('-s', help='wartosc dlugosci miedzy dwoma punktami [m]', required=False, type=float)
+            parser.add_argument('-alfa', help="wartosc kat poziomego [Â° ' '']", required=False, type=float)
+            parser.add_argument('-z', help="wartosc kat zenitalnego [Â° ' '']", required=False, type=float)
             
             args = parser.parse_args()
             
+            # dane = []
             
-            
+            # for i in [args.X, args.Y, args.Z, args.f, args.l, args.H, args.s, args.alfa, args.z]:
+            #     if i == None:
+            #         pass
+            #     else:
+            #         dane.append(i)
+                
+            return(args.X, args.Y, args.Z, args.f, args.l, args.H, args.s, args.alfa, args.z)
 
 if __name__ == "__main__":
     geo = Transformacje(model = "grs80")
@@ -417,51 +418,36 @@ if __name__ == "__main__":
     DANE = np.hstack((dane, dane2, neu, dane3, dane4))
     np.savetxt("wyniki.txt", DANE, delimiter='  ', fmt = ['%10.8f', '%10.8f', '%10.5f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f' ], header = 'Konwersja współrzednych geodezyjnych ', comments=' phi [st]     lambda[st]     hel[m]          X[m]              Y[m]              Z[m]          N[m]         E[m]         U[m]         x2000[m]        y2000[m]        x1992[m]          y1992[m]      \n ' )
     
-    #wywołanie argparse
-    parser = argparse.ArgumentParser(description='Transformacje wspolrzednych')
     
-    parser.add_argument('-X', help='wartosc wspolrzednej pierwszegi punktu X [m]', required=False, default='')
-    parser.add_argument('-Y', help='wartosc wspolrzednej pierwszego punktu Y [m]', required=False, default='')
-    parser.add_argument('-Z', help='wartosc wspolrzednej pierwszego punktu Z [m]', required=False, default='')
-    
-    parser.add_argument('-X2', help='wartosc wspolrzednej drugiego punktu X [m]', required=False, default='')
-    parser.add_argument('-Y2', help='wartosc wspolrzednej drugiego punktu Y [m]', required=False, default='')
-    parser.add_argument('-Z2', help='wartosc wspolrzednej drugiego punktu Z [m]', required=False, default='')
-    
-    parser.add_argument('-s', help='wartosc dlugosci miedzy dwoma punktami [m]', required=False, default='')
-    parser.add_argument('-alfa', help="wartosc kat poziomego [Â° ' '']", required=False, default='')
-    parser.add_argument('-z', help="wartosc kat zenitalnego [Â° ' '']", required=False, default='')
-       
-    parser.add_argument('-f', help="wartosc wspolrzednej f [Â° ' '']", required=False, default='')
-    parser.add_argument('-l', help="wartosc wspolrzednej l [Â° ' '']", required=False, default='')
-    parser.add_argument('-H', help='wartosc wspolrzednej H [m]', required=False, default='')
-    parser.add_argument('-ns', help="numer strefy odwzorowawczej ns [° ' '']", required=False, default='')
    
     
-    args = parser.parse_args()
     
-    X = args.X
-    Y = args.Y
-    Z = args.Z
-    X2 = args.X2
-    Y2 = args.Y2
-    Z2 = args.Z2
-    s = args.s
-    alfa = args.alfa
-    z = args.z
-    f = args.f
-    l = args.l
-    H = args.H
-    ns = args.ns
     
-    f,l,h = geo.hirvonen(X,Y,Z)
-    X,Y,Z = geo.flh2XYZ(f, l, h)
-    x92,y92 = geo.fl2pl1992(f,l)
-    x2000,y2000 = geo.BL22000(f, l, ns)
-    neu = geo.NEU(R, v)
+
+    
+    # X,Y,Z = geo.flh2XYZ(f, l, h)
+    # x92,y92 = geo.fl2pl1992(f,l)
+    # x2000,y2000 = geo.BL22000(f, l, ns)
+    # neu = geo.NEU(R, v)
+    
+
     proba = Transformacje()
-    proba.zargparse()
-        
+    X,Y,Z,f,l,h,s,alfa,z = proba.zargparse()
+
+    print(X,Y,Z)
+    print(f,l,h)
+    print(s, alfa, z)
+    try:
+        f1,l1,h1 = proba.hirvonen(X,Y,Z) 
+        print(f1,l1,h1)
+    except TypeError: 
+        pass
+    try:
+        X2,Y2,Z2 = proba.flh2XYZ(f,l,h)
+        print(X2,Y2,Z2)
+    except TypeError:
+        pass
+
     
     
             
