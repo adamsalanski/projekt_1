@@ -332,18 +332,13 @@ class Transformacje:
             parser.add_argument('-s', help='wartosc dlugosci miedzy dwoma punktami [m]', required=False, type=float)
             parser.add_argument('-alfa', help="wartosc kat poziomego [Â° ' '']", required=False, type=float)
             parser.add_argument('-z', help="wartosc kat zenitalnego [Â° ' '']", required=False, type=float)
-            
+            parser.add_argument('-ns', help="numer strefy w odwzorowaniu PL-2000 [Â° ' '']", required=False, type=float)
+            parser.add_argument('-model', help='model elipsoidy', choices=['grs80','wgs84', 'ewKrasowski'], required=False, type=str, default='grs80')
             args = parser.parse_args()
             
-            # dane = []
+            self.__init__(args.model)
             
-            # for i in [args.X, args.Y, args.Z, args.f, args.l, args.H, args.s, args.alfa, args.z]:
-            #     if i == None:
-            #         pass
-            #     else:
-            #         dane.append(i)
-                
-            return(args.X, args.Y, args.Z, args.f, args.l, args.H, args.s, args.alfa, args.z)
+            return( args.X, args.Y, args.Z, args.f, args.l, args.H, args.s, args.alfa, args.z, args.ns)
 
 if __name__ == "__main__":
     geo = Transformacje(model = "grs80")
@@ -419,34 +414,39 @@ if __name__ == "__main__":
     np.savetxt("wyniki.txt", DANE, delimiter='  ', fmt = ['%10.8f', '%10.8f', '%10.5f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f', '%10.8f' ], header = 'Konwersja współrzednych geodezyjnych ', comments=' phi [st]     lambda[st]     hel[m]          X[m]              Y[m]              Z[m]          N[m]         E[m]         U[m]         x2000[m]        y2000[m]        x1992[m]          y1992[m]      \n ' )
     
     
-   
-    
-    
-    
-
-    
-    # X,Y,Z = geo.flh2XYZ(f, l, h)
-    # x92,y92 = geo.fl2pl1992(f,l)
-    # x2000,y2000 = geo.BL22000(f, l, ns)
-    # neu = geo.NEU(R, v)
-    
 
     proba = Transformacje()
-    X,Y,Z,f,l,h,s,alfa,z = proba.zargparse()
-
-    print(X,Y,Z)
-    print(f,l,h)
-    print(s, alfa, z)
+    X,Y,Z,f,l,h,s,alfa,z,ns = proba.zargparse()
+    
+    
+    print('(X,Y,Z)',X,Y,Z)
+    print('(f,l,h)',f,l,h)
+    print('(s,alfa,a)',s, alfa, z)
+    print('(ns)',ns)
     try:
         f1,l1,h1 = proba.hirvonen(X,Y,Z) 
-        print(f1,l1,h1)
+        print('(f,l,h)',f1,l1,h1)
     except TypeError: 
         pass
     try:
         X2,Y2,Z2 = proba.flh2XYZ(f,l,h)
-        print(X2,Y2,Z2)
+        print('(X,Y,Z)',X2,Y2,Z2)
     except TypeError:
         pass
+    try:
+        x92,y92 = proba.fl2pl1992(f, l)
+        print('(x92,y92)',x92,y92)
+    except TypeError:
+        pass
+    try:
+        x2000,y2000 = proba.BL22000(f, l, ns)
+        print('(x2000,y2000)',x2000,y2000)
+    except TypeError:
+        pass
+    except UnboundLocalError:
+        pass
+    
+        
 
     
     
