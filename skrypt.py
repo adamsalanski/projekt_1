@@ -90,7 +90,7 @@ class Transformacje:
 
         Parameters
         ----------
-        f : TYPE: [float] - Szerokoć geodezyjna [stopnie]
+        f : TYPE: [float] - Szerokoć geodezyjna [stopnie dziesiętne]
 
         Returns
         -------
@@ -110,14 +110,14 @@ class Transformacje:
 
         Parameters
         ----------
-        f : TYPE: [float] - Szerokoć geodezyjna [stopnie]
-        l : TYPE: [float] - Długoć geodezyjna [stopnie]
+        f : TYPE: [float] - Szerokoć geodezyjna [stopnie dziesiętne]
+        l : TYPE: [float] - Długoć geodezyjna [stopnie dziesiętne]
             DESCRIPTION.
 
         Returns
         -------
-        x92 : TYPE: [float] - Współrzędna X w układzie PL-1992 [m]
-        y92 : TYPE: [float] - Współrzędna Y w układzie PL-1992 [m]
+        x92 : TYPE: [float] - Współrzędna X w układzie PL-1992 [metry]
+        y92 : TYPE: [float] - Współrzędna Y w układzie PL-1992 [metry]
 
         '''
         
@@ -146,11 +146,11 @@ class Transformacje:
 
         Parameters
         ----------
-        f : TYPE: [float] - Szerokoć geodezyjna [stopnie]
+        f : TYPE: [float] - Szerokoć geodezyjna [stopnie dziesiętne]
 
         Returns
         -------
-        N : TYPE: [float] - Promień krzywizny w I wertykale [m]
+        N : TYPE: [float] - Promień krzywizny w I wertykale [metry]
 
         '''
         N = self.a / np.sqrt(1-self.e2 * np.sin(f)**2) #**2 podnosi do kwadratu
@@ -162,14 +162,14 @@ class Transformacje:
         
         Parameters
         ----------
-        f : TYPE : [float] : Szerokość geodezyjna [stopnie]
-        l : TYPE : [float] : Długość geodezyjna [stopnie]
+        f : TYPE : [float] : Szerokość geodezyjna [stopnie dziesiętne]
+        l : TYPE : [float] : Długość geodezyjna [stopnie dziesiętne]
         ns : TYPE: [int] : Numer strefy
 
         Returns
         -------
-        x2000 : TYPE : [float] : współrzędna X w układzie 2000 [m]
-        y2000 : TYPE : [float] : współrzędna Y w układzie 2000 [m]
+        x2000 : TYPE : [float] : współrzędna X w układzie 2000 [metry]
+        y2000 : TYPE : [float] : współrzędna Y w układzie 2000 [metry]
 
         '''
         if ns == 5:
@@ -282,8 +282,8 @@ class Transformacje:
     
         INPUT:
         ----------
-        f : [float] : wspołrzędna fi punktu początkowego układu lokalnego
-        l : [float] :wspołrzędna l punktu początkowego układu lokalnego
+        f : [float] : wspołrzędna fi punktu początkowego układu lokalnego [stopnie dziesiętne]
+        l : [float] :wspołrzędna l punktu początkowego układu lokalnego [stopnie dziesiętne]
     
         OUTPUT:
         -------
@@ -317,6 +317,39 @@ class Transformacje:
                     NEU[a,c]+=v[a,b]*R[c,b]
         return (NEU)
     
+    
+    def XYZ2neu(self,s,alfa,z,X,Y,Z):
+        '''
+        Funkcja przeliczająca współrzędzne kartezjańskie X,Y,Z do układu NEU przy pomocy wektora przestrzennego
+        w układzie topocentrycznym.
+
+        Parameters
+        ----------
+        Parametry wektora przestrzennego w układzie lokalnym topocentrycznym:
+        s : TYPEE: [float] - Odległosć [metry]
+        alfa : TYPE: [float] - Kąt pionowy [stopnie dziesiętne]
+        z : TYPE:[float] - Kąt poziomy [stopnie dziesiętne]
+        X : TYPE: [float] - Współrzędna X w układzie ortokartezjańskim [metry]
+        Y : TYPE: [float] - Współrzędna Y w układzie ortokartezjańskim [metry]
+        Z : TYPE: [float] - Współrzędna Z w układzie ortokartezjańskim [metry]
+
+        Returns
+        -------
+        neu : TYPE: [array of float64] - współrzedne topocentryczne (North , East (E), Up (U)) 
+
+        '''
+        dX = np.array([s * np.sin(z) * np.cos(alfa),# to a to alfa
+                         s * np.sin(z) * np.sin(alfa),# to a to alfa
+                         s * np.cos(z)])
+        f,l,h = self.hirvonen(X,Y,Z)
+        
+        N=[(-sin(f) * cos(l)), (-sin(f) * sin(l)), (cos(f))]
+        E=[(-sin(l)), (cos(l)),  (0)]
+        U=[( cos(f) * cos(l)), ( cos(f) * sin(l)), (sin(f))]
+        R=np.transpose(np.array([N,E,U]))
+        neu = R.T @ dX
+        return(neu)
+    
     def zargparse(self):
             
             parser = argparse.ArgumentParser(description='Transformacje wspolrzednych')
@@ -342,22 +375,34 @@ class Transformacje:
 
 if __name__ == "__main__":
     geo = Transformacje(model = "grs80")
+    
+    print('Przykładowe wywołanie hirvonen')
     X = 3664940.500
     Y = 1409153.590
     Z = 5009571.170
     phi, lam, h = geo.hirvonen(X, Y, Z)
     print(phi, lam, h)
     
+    print('Przykładowe wywołanie flh2XYZ')
     X,Y,Z = geo.flh2XYZ(phi,lam,h)
     print(X,Y,Z)
     
+    print('Przykładowe wywołanie fl2pl1992')
     f=0.9076010398716878
     l = 0.27936573137624443 
     x92,y92 = geo.fl2pl1992(f, l)
     print(x92,y92)
     
+    print('Przykładowe wywołanie BL22000')
     x2000,y2000 = geo.BL22000(f,l,5)
     print(x2000,y2000)
+    
+    print('Przykładowe wywołanie XYZ2neu')
+    s = 30000.000 
+    alfa = 165.0000 
+    z = 90.0000
+    neu = geo.XYZ2neu(s, alfa, z, X, Y, Z)
+    print(neu)
     
     plik = "wsp_inp.txt"
     tablica = np.genfromtxt(plik, delimiter=',', skip_header = 4)
@@ -365,14 +410,14 @@ if __name__ == "__main__":
     for i, n in enumerate(tablica):
         phi, lam, hel = geo.hirvonen(tablica[i,0], tablica[i,1], tablica[i,2])
         dane[i,:] = [phi, lam, hel]
-        
+    print('f,l,h zapis do pliku txt')    
     print(dane) #phi, lam, hel
     
     dane2 = np.ones((12,3))
     for i, n in enumerate(dane):
         X, Y, Z = geo.flh2XYZ(dane[i,0], dane[i,1], dane[i,2])
         dane2[i,:] = [X, Y, Z]
-        
+    print('X,Y,Z zapis do pliku txt')     
     print(dane2) # X, Y, Z
     
     
@@ -381,14 +426,14 @@ if __name__ == "__main__":
     for i, n in enumerate(dane):
         x2000, y2000 = geo.BL22000(dane[i,0], dane[i,1],7)
         dane3[i,:] = [x2000, y2000]
-        
+    print('x2000,y2000 zapis do pliku txt')     
     print(dane3) # x2000, y2000
     
     dane4 = np.ones((12,2))
     for i, n in enumerate(dane):
         x1992, y1992 = geo.fl2pl1992(dane[i,0], dane[i,1])
         dane4[i,:] = [x1992, y1992]
-        
+    print('x1992,y1992 zapis do pliku txt')     
     print(dane4) # x1992, y1992
     
     phi_sr = geo.średnia(dane[:,0])
@@ -408,6 +453,7 @@ if __name__ == "__main__":
         ii += 1
 
     neu=geo.NEU(R, v)
+    print('neu zapis do pliku txt') 
     print(neu) 
     
     DANE = np.hstack((dane, dane2, neu, dane3, dane4))
@@ -417,12 +463,14 @@ if __name__ == "__main__":
 
     proba = Transformacje()
     X,Y,Z,f,l,h,s,alfa,z,ns = proba.zargparse()
-    
-    
+    print('_______________________________________________')
+    print('___________DANE:_______________________________')
     print('(X,Y,Z)',X,Y,Z)
     print('(f,l,h)',f,l,h)
-    print('(s,alfa,a)',s, alfa, z)
+    print('(s,alfa,z)',s, alfa, z)
     print('(ns)',ns)
+    print('_______________________________________________')
+    print('__________WYNIKI:______________________________')
     try:
         f1,l1,h1 = proba.hirvonen(X,Y,Z) 
         print('(f,l,h)',f1,l1,h1)
@@ -445,6 +493,13 @@ if __name__ == "__main__":
         pass
     except UnboundLocalError:
         pass
+    try:
+        neu = proba.XYZ2neu(s, alfa, z, X, Y, Z)
+        print('neu',neu)
+    except TypeError:
+        pass
+    
+    
     
         
 
