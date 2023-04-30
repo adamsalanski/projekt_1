@@ -39,7 +39,16 @@ Funckja obliczająca wektor w układzie neu
 Funkcja przeliczająca współrzędzne kartezjańskie X,Y,Z do układu NEU przy pomocy wektora przestrzennego w układzie topocentrycznym.
 # Wprowadzanie danych
 ## Za pomocą pythona
-
+```
+def hirvonen(self,X,Y,Z):
+```
+Aby wywołać dowolną funkcję należy podać jej argumenty które znajdują się w nawiasie, w tym przypadku współrzędne X,Y,Z. W przypadku innych funkcji mogą to być:
+f - szerokość geodezyjna
+l - długość geodezyjna
+h - wysokość elipsoidalna
+s - odległość
+alfa - kąt poziomy
+z - kąt pionowy
 
 #Przykładowy wygląd pliku
 
