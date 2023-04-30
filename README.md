@@ -54,6 +54,11 @@ Plikiem wyjściowym jest plik ze współrzędnymi X,Y,Z
 ![image](https://user-images.githubusercontent.com/129080884/235367364-26d0a6fb-2402-4695-9468-fefd9bd603a4.png)
 
 Aby otrzymać wyniki należy wprowadzić współrzędne jak na obrazku wyżej, ważne jest aby zgadzała się liczba kolumn(3) i wierszy(12) w przeciwnym wypadku program nie wykona obliczeń. Gdybyśmy chcieli wykonać obliczenia z pliku txt o innej liczbie kolumn i wierszy musilibyśmy zmieniać skrypt programu.
+
+Plik wynikowy prezentuje się następująco:
+![image](https://user-images.githubusercontent.com/129080884/235369548-ee8f9fad-45e1-4aa6-bb35-fbdb1739e761.png)
+
+
 ## Za pomocą konsoli GITa
 Na początku musimy otworzyć nasz program przy pomocy aplikacji Git Bash w tym celu klikamy prwawym przyciskiem myszy na nasz plik skrypt.py i wybieramy Git Bash Here. Następnie w otwartej już kosoli wpisujemy:
 ```
