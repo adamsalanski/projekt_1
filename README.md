@@ -59,6 +59,7 @@ Na początku musimy otworzyć nasz program przy pomocy aplikacji Git Bash w tym 
 python skrypt.py 
 ```
 Następnie dopisujemy interesujące nas argumenty z listy poniżej.
+```
 Transformacje wspolrzednych
 
 options:
@@ -75,9 +76,26 @@ options:
   -ns NS                numer strefy w odwzorowaniu PL-2000 [° ' '']
   -model {grs80,wgs84,ewKrasowski}
                         model elipsoidy
+```
+Przykładowe wprowadzenie danych:
+```
+python skrypt.py -model grs80 -X 100.00 -Y 200.00 -Z 300.00
+```
 
-
-#Przykładowy wygląd pliku
-
+#Przykładowe wywołania funkcji
+Aby przystapić do pierwszych prac na naszych funkcjach należy zainstalować biblioteki numpy i argparse w tym celu należy wpisać w konsole pythona nastepujące komendy:
+```
+python - pip install numpy
+```
+```
+python - pip install argparse
+```
+Następnie tworzymy nowy plik i importujemy wymienione niżej biblioteki:
+```
+import numpy as np
+import argparse
+from math import &
+from skrypt import *
+```
 #Wymagania 
 Program ten można uruchomić na komputerze z systemem operacyjnym Windows.Oraz z odpowiednim programem Phython (wersja 3.9) i musi posiadać bibioteki Numpy oraz argparse.
