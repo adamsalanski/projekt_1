@@ -37,7 +37,9 @@ Algorytm Hirvonena - algorytm transformacji współrzędnych ortokartezjańskich
 Funckja obliczająca wektor w układzie neu
 ### Definicja XYZ2neu
 Funkcja przeliczająca współrzędzne kartezjańskie X,Y,Z do układu NEU przy pomocy wektora przestrzennego w układzie topocentrycznym.
-# Wywołanie
+# Wprowadzanie danych
+## Za pomocą pythona
+
 
 #Przykładowy wygląd pliku
 
