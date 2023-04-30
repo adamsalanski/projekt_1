@@ -97,5 +97,16 @@ import argparse
 from math import &
 from skrypt import *
 ```
+Teraz tworzymy obiekt i wywołujemy klase "Transformacje", w nawiasie podajemy model elipsoidy:
+```
+test = Transformacje(model = "grs80")
+```
+Teraz, aby wywołać jakąś funkcje postępujemy w następujący sposób:
+```
+ phi, lam, h = geo.hirvonen(X, Y, Z)
+    print(phi, lam, h)
+```
+W zależności od interesującej nas transforamcji zmienia się tylko nazwa funkcji i jej argumenty.
+
 #Wymagania 
 Program ten można uruchomić na komputerze z systemem operacyjnym Windows.Oraz z odpowiednim programem Phython (wersja 3.9) i musi posiadać bibioteki Numpy oraz argparse.
