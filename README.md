@@ -1,21 +1,21 @@
 # Aplikacja do przeliczania współrzędnych pomiędzy układami
 
 ### Założenia projektu
-Głównym celem projektu jest szybsze i wygodniejsze przeliczanie współrzędnych pomiędzy pomiędzy danymi układami. W skrypcie "master" oraz gałęziach łączacych się z nią zostały zawarte  potrzebne tam definicje.
+Głównym celem projektu jest szybsze i wygodniejsze przeliczanie współrzędnych pomiędzy danymi układami.
 
 # Co robi aplikacja:
 -Przeliczenie współrzednyvh geocentrycznych (X,Y,Z) na współrzedne geodezyjne (φ, λ, h)
 
 -Przeliczenie współrzednych geodezyjnych (φ, λ, h) na współrzedne geocentryczne (X,Y,Z)
 
--Wyznaczenie współrzednych topocentrycznych (E,N,Up)
+-Wyznaczenie współrzednych topocentrycznych (N,E,U)
 
--Wyznaczenie współrzednych w układzie 2000
+-Wyznaczenie współrzednych w układzie PL-2000
 
--Wyznaczenie współrzednych w układzie 92
+-Wyznaczenie współrzednych w układzie PL-1992
 
 ## Jakie elipsy obsługuje:
--wrs80
+-wrs84
 -grs80
 -ewKrasowskiego
 ## Definicje wykorzystane w skrypcie 
