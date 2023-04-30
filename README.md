@@ -14,7 +14,7 @@ Głównym celem projektu jest szybsze i wygodniejsze przeliczanie współrzędny
 
 -Wyznaczenie współrzednych w układzie 92
 
-##Jakie elipsy obsługuje:
+## Jakie elipsy obsługuje:
 -wrs80
 -grs80
 -ewKrasowskiego
@@ -52,6 +52,7 @@ z - kąt pionowy
 ## Za pomocą pliku .txt
 Plikiem wyjściowym jest plik ze współrzędnymi X,Y,Z
 ![image](https://user-images.githubusercontent.com/129080884/235367364-26d0a6fb-2402-4695-9468-fefd9bd603a4.png)
+
 Aby otrzymać wyniki należy wprowadzić współrzędne jak na obrazku wyżej, ważne jest aby zgadzała się liczba kolumn(3) i wierszy(12) w przeciwnym wypadku program nie wykona obliczeń. Gdybyśmy chcieli wykonać obliczenia z pliku txt o innej liczbie kolumn i wierszy musilibyśmy zmieniać skrypt programu.
 ## Za pomocą konsoli GITa
 Na początku musimy otworzyć nasz program przy pomocy aplikacji Git Bash w tym celu klikamy prwawym przyciskiem myszy na nasz plik skrypt.py i wybieramy Git Bash Here. Następnie w otwartej już kosoli wpisujemy:
@@ -82,7 +83,7 @@ Przykładowe wprowadzenie danych:
 python skrypt.py -model grs80 -X 100.00 -Y 200.00 -Z 300.00
 ```
 
-#Przykładowe wywołania funkcji
+# Przykładowe wywołania funkcji
 Aby przystapić do pierwszych prac na naszych funkcjach należy zainstalować biblioteki numpy i argparse w tym celu należy wpisać w konsole pythona nastepujące komendy:
 ```
 python - pip install numpy
