@@ -49,6 +49,33 @@ h - wysokość elipsoidalna
 s - odległość
 alfa - kąt poziomy
 z - kąt pionowy
+## Za pomocą pliku .txt
+Plikiem wyjściowym jest plik ze współrzędnymi X,Y,Z
+![image](https://user-images.githubusercontent.com/129080884/235367364-26d0a6fb-2402-4695-9468-fefd9bd603a4.png)
+Aby otrzymać wyniki należy wprowadzić współrzędne jak na obrazku wyżej, ważne jest aby zgadzała się liczba kolumn(3) i wierszy(12) w przeciwnym wypadku program nie wykona obliczeń. Gdybyśmy chcieli wykonać obliczenia z pliku txt o innej liczbie kolumn i wierszy musilibyśmy zmieniać skrypt programu.
+## Za pomocą konsoli GITa
+Na początku musimy otworzyć nasz program przy pomocy aplikacji Git Bash w tym celu klikamy prwawym przyciskiem myszy na nasz plik skrypt.py i wybieramy Git Bash Here. Następnie w otwartej już kosoli wpisujemy:
+```
+python skrypt.py 
+```
+Następnie dopisujemy interesujące nas argumenty z listy poniżej.
+Transformacje wspolrzednych
+
+options:
+  -h, --help            show this help message and exit
+  -X X                  wartosc wspolrzednej pierwszegi punktu X [m]
+  -Y Y                  wartosc wspolrzednej pierwszego punktu Y [m]
+  -Z Z                  wartosc wspolrzednej pierwszego punktu Z [m]
+  -f F                  wartosc wspolrzednej f [° ' '']
+  -l L                  wartosc wspolrzednej l [° ' '']
+  -H H                  wartosc wspolrzednej H [m]
+  -s S                  wartosc dlugosci miedzy dwoma punktami [m]
+  -alfa ALFA            wartosc kat poziomego [° ' '']
+  -z Z                  wartosc kat zenitalnego [° ' '']
+  -ns NS                numer strefy w odwzorowaniu PL-2000 [° ' '']
+  -model {grs80,wgs84,ewKrasowski}
+                        model elipsoidy
+
 
 #Przykładowy wygląd pliku
 
