@@ -50,7 +50,7 @@ s - odległość
 alfa - kąt poziomy
 z - kąt pionowy
 ## Za pomocą pliku .txt
-Plikiem wyjściowym jest plik ze współrzędnymi X,Y,Z
+Plikiem wejściowym jest plik wsp_inp.txt ze współrzędnymi X,Y,Z
 ![image](https://user-images.githubusercontent.com/129080884/235367364-26d0a6fb-2402-4695-9468-fefd9bd603a4.png)
 
 Aby otrzymać wyniki należy wprowadzić współrzędne jak na obrazku wyżej, ważne jest aby zgadzała się liczba kolumn(3) i wierszy(12) w przeciwnym wypadku program nie wykona obliczeń. Gdybyśmy chcieli wykonać obliczenia z pliku txt o innej liczbie kolumn i wierszy musilibyśmy zmieniać skrypt programu.
