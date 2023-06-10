@@ -114,5 +114,8 @@ Teraz, aby wywołać jakąś funkcje postępujemy w następujący sposób:
 ```
 W zależności od interesującej nas transforamcji zmienia się tylko nazwa funkcji i jej argumenty.
 
-#Wymagania 
+# Wymagania 
 Program ten można uruchomić na komputerze z systemem operacyjnym Windows.Oraz z odpowiednim programem Phython (wersja 3.9) i musi posiadać bibioteki Numpy oraz argparse.
+
+# Znane błędy:
+Transformacja BL-->2000 oraz BL-->1992 dla elipsoidy krasowskiego daje błędne wyniki i nie powinna być używana. 
