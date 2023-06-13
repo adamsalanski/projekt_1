@@ -85,7 +85,7 @@ options:
 ```
 Przykładowe wprowadzenie danych:
 ```
-python skrypt.py -model grs80 -X 100.00 -Y 200.00 -Z 300.00
+python skrypt.py -model grs80 -metoda hirvonen -X 100.00 -Y 200.00 -Z 300.00
 ```
 
 # Przykładowe wywołania funkcji
