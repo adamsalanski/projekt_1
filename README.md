@@ -89,6 +89,7 @@ Przykładowe wprowadzenie danych:
 python skrypt.py -model grs80 -metoda hirvonen -X 100.00 -Y 200.00 -Z 300.00
 ```
 
+
 # Przykładowe wywołania funkcji
 Aby przystapić do pierwszych prac na naszych funkcjach należy zainstalować biblioteki numpy i argparse w tym celu należy wpisać w konsole pythona nastepujące komendy:
 ```
@@ -120,3 +121,5 @@ Program ten można uruchomić na komputerze z systemem operacyjnym Windows.Oraz 
 
 # Znane błędy:
 Transformacja BL-->2000 oraz BL-->1992 dla elipsoidy krasowskiego daje błędne wyniki i nie powinna być używana. 
+Przy wprowadzaniu danych z konsoli oprócz pożądanych wyników printują się także inne, niewiadomego pochodzenia, których nie mogliśmy zlokalizować
+utrudnia to odszukanie docelowych wyników.
