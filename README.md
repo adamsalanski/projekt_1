@@ -120,6 +120,6 @@ W zależności od interesującej nas transforamcji zmienia się tylko nazwa funk
 Program ten można uruchomić na komputerze z systemem operacyjnym Windows.Oraz z odpowiednim programem Phython (wersja 3.9) i musi posiadać bibioteki Numpy oraz argparse.
 
 # Znane błędy:
-Transformacja BL-->2000 oraz BL-->1992 dla elipsoidy krasowskiego daje błędne wyniki i nie powinna być używana. 
-Przy wprowadzaniu danych z konsoli oprócz pożądanych wyników printują się także inne, niewiadomego pochodzenia, których nie mogliśmy zlokalizować
+- Transformacja BL-->2000 oraz BL-->1992 dla elipsoidy krasowskiego daje błędne wyniki i nie powinna być używana. 
+- Przy wprowadzaniu danych z konsoli oprócz pożądanych wyników printują się także inne, niewiadomego pochodzenia, których nie mogliśmy zlokalizować
 utrudnia to odszukanie docelowych wyników.
