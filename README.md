@@ -68,20 +68,21 @@ Następnie dopisujemy interesujące nas argumenty z listy poniżej.
 ```
 Transformacje wspolrzednych
 
-options:
+
+optional arguments:
   -h, --help            show this help message and exit
   -X X                  wartosc wspolrzednej pierwszegi punktu X [m]
   -Y Y                  wartosc wspolrzednej pierwszego punktu Y [m]
   -Z Z                  wartosc wspolrzednej pierwszego punktu Z [m]
-  -f F                  wartosc wspolrzednej f [° ' '']
-  -l L                  wartosc wspolrzednej l [° ' '']
+  -f F                  wartosc wspolrzednej f [Â° ' '']
+  -l L                  wartosc wspolrzednej l [Â° ' '']
   -H H                  wartosc wspolrzednej H [m]
   -s S                  wartosc dlugosci miedzy dwoma punktami [m]
-  -alfa ALFA            wartosc kat poziomego [° ' '']
-  -z Z                  wartosc kat zenitalnego [° ' '']
-  -ns NS                numer strefy w odwzorowaniu PL-2000 [° ' '']
-  -model {grs80,wgs84,ewKrasowski}
-                        model elipsoidy
+  -alfa ALFA            wartosc kat poziomego [Â° ' '']
+  -z Z                  wartosc kat zenitalnego [Â° ' '']
+  -ns NS                numer strefy w odwzorowaniu PL-2000 [Â° ' '']
+  -model {grs80,wgs84,ewKrasowski}    model elipsoidy
+  -metoda {fl2pl1992,BL22000,hirvonen,flh2XYZ,XYZ2neu}   metoda
 ```
 Przykładowe wprowadzenie danych:
 ```
